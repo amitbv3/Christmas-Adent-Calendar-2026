@@ -16,15 +16,28 @@
 body {
   margin:0;
   min-height:100vh;
+  overflow-x:hidden;
   color:var(--cream);
   font-family:Georgia,serif;
   background:
     radial-gradient(ellipse at 50% 0%,#315641 0%,transparent 48%),
     linear-gradient(155deg,#0b211b,#142d25 55%,#071710);
 }
+.snowflake {
+  position:fixed;
+  top:-15px;
+  z-index:5;
+  color:#fff;
+  opacity:.75;
+  pointer-events:none;
+  animation:fall linear infinite;
+}
+@keyframes fall {
+  to { transform:translateY(110vh) rotate(360deg); }
+}
 header {
   text-align:center;
-  padding:55px 20px 25px;
+  padding:48px 20px 20px;
 }
 .eyebrow {
   color:var(--gold);
@@ -49,12 +62,36 @@ h1 span { color:var(--gold); }
   color:var(--gold);
   font-size:19px;
   letter-spacing:12px;
-  margin:22px 0 0;
+  margin:19px 0 0;
+}
+.countdown {
+  max-width:430px;
+  margin:12px auto 27px;
+  padding:19px 15px;
+  text-align:center;
+  border:1px solid #d9c17a66;
+  border-radius:17px;
+  background:#ffffff0a;
+}
+.countdown-label {
+  color:var(--gold);
+  font:10px Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:3px;
+}
+#countdownNumber {
+  font-size:43px;
+  margin:8px 0 3px;
+  color:var(--cream);
+}
+#countdownCaption {
+  color:var(--muted);
+  font:11px Arial,sans-serif;
 }
 main {
   max-width:760px;
   margin:0 auto;
-  padding:15px 18px 40px;
+  padding:0 18px 35px;
 }
 .section-title {
   text-align:center;
@@ -62,7 +99,7 @@ main {
   font:10px Arial,sans-serif;
   letter-spacing:3px;
   text-transform:uppercase;
-  margin:12px 0 20px;
+  margin:15px 0 20px;
 }
 .doors {
   display:grid;
@@ -94,6 +131,7 @@ main {
   border-radius:50%;
   right:-55px;
   top:-55px;
+  pointer-events:none;
 }
 .amit { background:linear-gradient(145deg,#28543b,#102b20); }
 .neeta { background:linear-gradient(145deg,#582a39,#21121c); }
@@ -137,7 +175,7 @@ main {
   padding:7px 9px;
 }
 .message {
-  margin:28px auto 0;
+  margin:29px auto 0;
   max-width:520px;
   border-top:1px solid #d9c17a50;
   border-bottom:1px solid #d9c17a50;
@@ -147,7 +185,8 @@ main {
 .message .quote {
   color:var(--gold);
   font-size:23px;
-  margin-bottom:8px;
+  line-height:1.3;
+  margin-bottom:10px;
 }
 .message p {
   color:var(--muted);
@@ -166,6 +205,10 @@ footer {
   .name { font-size:23px; }
   .tag { font-size:10px; }
 }
+@media(prefers-reduced-motion:reduce) {
+  .snowflake { display:none; }
+  * { animation:none !important; transition:none !important; }
+}
 </style>
 </head>
 <body>
@@ -181,11 +224,16 @@ footer {
   <div class="snow">✦ ❄ ✦ ❄ ✦</div>
 </header>
 
+<section class="countdown">
+  <div class="countdown-label">The countdown to Christmas</div>
+  <div id="countdownNumber">--</div>
+  <div id="countdownCaption">Until Christmas Day</div>
+</section>
+
 <main>
   <div class="section-title">Choose your Christmas door</div>
 
   <section class="doors">
-
     <a class="door amit" href="Amit/">
       <div>
         <div class="icon">🏃‍♂️</div>
@@ -222,14 +270,15 @@ footer {
       </div>
       <div class="open">Open your calendar →</div>
     </a>
-
   </section>
 
   <section class="message">
     <div class="quote">“The magic of Christmas is better together.”</div>
     <p>
-      A little something made with love, just for our family.
-      Open a door each day and make December a little more special.
+      To our little family: may this December be full of laughter,
+      unexpected surprises, lovely memories and a little bit of magic.
+      Each door has something special waiting behind it.
+      Made with love, just for us.
     </p>
   </section>
 </main>
@@ -237,6 +286,42 @@ footer {
 <footer>
   MADE WITH LOVE · CHRISTMAS 2026
 </footer>
+
+<script>
+// Christmas countdown
+function updateCountdown() {
+  const now = new Date();
+  const christmas = new Date(2026, 11, 25, 0, 0, 0);
+  const difference = christmas - now;
+  const number = document.getElementById("countdownNumber");
+  const caption = document.getElementById("countdownCaption");
+
+  if (difference <= 0) {
+    number.textContent = "🎄";
+    caption.textContent = "Merry Christmas!";
+    return;
+  }
+
+  const days = Math.ceil(difference / 86400000);
+  number.textContent = days;
+  caption.textContent = days === 1 ? "Day until Christmas" : "Days until Christmas";
+}
+updateCountdown();
+setInterval(updateCountdown, 60000);
+
+// Gentle falling snow
+const snowSymbols = ["❄", "❅", "✧", "❆"];
+for (let i = 0; i < 24; i++) {
+  const flake = document.createElement("div");
+  flake.className = "snowflake";
+  flake.textContent = snowSymbols[i % snowSymbols.length];
+  flake.style.left = Math.random() * 100 + "vw";
+  flake.style.fontSize = (9 + Math.random() * 12) + "px";
+  flake.style.animationDuration = (9 + Math.random() * 13) + "s";
+  flake.style.animationDelay = (-Math.random() * 20) + "s";
+  document.body.appendChild(flake);
+}
+</script>
 
 </body>
 </html>
