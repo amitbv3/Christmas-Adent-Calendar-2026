@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#21152f">
+<title>Parisa's Christmas Adventure</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#21152f;color:#fff8f1;font-family:Georgia,serif}
+header{text-align:center;padding:35px 16px;background:linear-gradient(145deg,#50336e,#21152f)}
+header h1{font-size:29px;color:#f3d58c;margin:12px 0}
+header p{color:#e4d6ec;font-family:Arial}
+main{max-width:650px;margin:auto;padding:18px}
+h2{color:#edcf91}
+.panel{background:#382849;border:1px solid #9b7caf;border-radius:17px;padding:20px;margin:17px 0}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:20px 0}
+button{cursor:pointer;border:1px solid #d9b87a;border-radius:10px;padding:12px;background:#634477;color:white;font-size:15px}
+.door{aspect-ratio:1;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:23px;background:linear-gradient(145deg,#80619b,#49315e)}
+.door small{font-size:10px;margin-top:5px}
+.door.done{background:linear-gradient(145deg,#a88951,#73542d)}
+.door.locked{opacity:.5}
+.word{font-size:34px;color:#f3d58c;margin:15px 0;overflow-wrap:anywhere}
+.definition{font-family:Arial;line-height:1.65}
+input{width:100%;padding:13px;border-radius:9px;border:1px solid #c5a2d5;margin:10px 0;font-size:16px}
+textarea{width:100%;min-height:90px;padding:12px;border-radius:9px;border:1px solid #c5a2d5;font-size:15px;margin:10px 0}
+.primary{background:#d1ac68;color:#281c32;font-weight:bold}
+.letters{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:18px 0}
+.letters span{width:23px;height:32px;border-bottom:2px solid #c7a76c;text-align:center;color:#f3d58c;font-size:18px}
+.progress{height:9px;background:#55465f;border-radius:10px;overflow:hidden}
+.progress div{height:100%;background:#e8c77f}
+.hidden{display:none}
+footer{text-align:center;color:#d8c7df;padding:30px;font-family:Arial;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:35px">✨ ⭐ ❄️ ⭐ ✨</div>
+<h1>Parisa's Christmas Adventure</h1>
+<p>25 days • 25 words • One magical mystery</p>
+<p style="color:#f3d58c">A little Christmas challenge, just for you ❤️</p>
+</header>
+<main>
+<section id="home">
+<div class="panel" style="text-align:center">
+<h2>Welcome, Parisa!</h2>
+<p class="definition">Every day brings a new word to discover. Learn its meaning, write your own sentence and collect a secret letter.</p>
+<p>🎁 Can you solve the Christmas mystery?</p>
+</div>
+<h2 style="text-align:center">Your advent doors</h2>
+<div class="grid" id="doors"></div>
+<div class="panel">
+<h2>Your December progress</h2>
+<div class="progress"><div id="bar" style="width:0%"></div></div>
+<p id="progressText" class="definition"></p>
+</div>
+<div class="panel">
+<h2>🔐 Your secret letters</h2>
+<p class="definition">Complete a daily challenge to discover a new letter. The full message stays a mystery until Christmas!</p>
+<div class="letters" id="letters"></div>
+</div>
+</section>
+<section id="challenge" class="panel hidden">
+<button onclick="goHome()">← Back to advent calendar</button>
+<h2 id="dayTitle"></h2>
+<div class="word" id="word"></div>
+<p class="definition" id="meaning"></p>
+<p class="definition" id="example"></p>
+<label for="sentence">Your turn! Write your own sentence using this word:</label>
+<textarea id="sentence" placeholder="Show off your vocabulary..."></textarea>
+<button class="primary" onclick="completeDay()">Complete today's challenge ⭐</button>
+<p id="feedback" class="definition"></p>
+</section>
+<section id="finale" class="panel hidden">
+<h2>🎄 Your Christmas Mystery</h2>
+<p class="definition">You've collected your letters. Now put them together and enter your secret password!</p>
+<div class="letters" id="finalLetters"></div>
+<input id="password" placeholder="Enter your 25-letter password">
+<button class="primary" onclick="unlock()">Unlock your Christmas surprise 🎁</button>
+<p id="result" class="definition"></p>
+</section>
+</main>
+<footer>Made with love by Dad ❤️<br>Christmas 2026</footer>
+<script>
+const password="EVERYCHRISTMASBRINGSMAGIC";
+const words=[
+["Eloquent","Speaking or writing beautifully and clearly.","Her eloquent speech impressed everyone."],
+["Vibrant","Full of energy, life and colour.","The vibrant garden was full of flowers."],
+["Enigmatic","Mysterious and difficult to understand.","The enigmatic clue puzzled us."],
+["Resilient","Able to recover after difficulties.","She remained resilient after a setback."],
+["Yearning","A strong feeling of wanting something.","He felt a yearning for adventure."],
+["Compassionate","Showing kindness and care for others.","She was compassionate towards her friend."],
+["Hypothetical","Imagined rather than real.","Let's consider a hypothetical situation."],
+["Resourceful","Good at finding clever solutions.","She was resourceful when solving the puzzle."],
+["Intuition","Understanding something without needing proof.","My intuition told me something was wrong."],
+["Serenity","A feeling of peace and calm.","The quiet lake gave me a sense of serenity."],
+["Tenacious","Determined and unwilling to give up.","Her tenacious attitude helped her succeed."],
+["Meticulous","Very careful about every detail.","He was meticulous with his artwork."],
+["Audacious","Bold, daring and adventurous.","It was an audacious idea."],
+["Significant","Important or meaningful.","It was a significant achievement."],
+["Benevolent","Kind, generous and wanting to help.","The benevolent woman helped the community."],
+["Reflective","Thinking carefully about something.","She was reflective after the experience."],
+["Ingenious","Very clever and inventive.","That was an ingenious invention."],
+["Nostalgia","A feeling about happy memories from the past.","The photograph filled her with nostalgia."],
+["Gratitude","The feeling of being thankful.","I expressed my gratitude to my teacher."],
+["Spontaneous","Happening naturally without being planned.","We took a spontaneous trip."],
+["Magnificent","Extremely impressive or beautiful.","The view from the mountain was magnificent."],
+["Articulate","Able to express ideas clearly.","She gave an articulate answer."],
+["Gracious","Kind, polite and thoughtful.","He was gracious when he won."],
+["Innovative","Introducing new and clever ideas.","It was an innovative design."],
+["Courageous","Brave when facing something difficult.","It was courageous to speak up."]
+];
+const KEY="parisa_advent_2026";
+let current=1;
+let preview=false;
+function saved(){try{return JSON.parse(localStorage.getItem(KEY))||[];}catch(e){return [];}}
+function store(a){localStorage.setItem(KEY,JSON.stringify(a));}
+function openDate(n){return preview||new Date()>=new Date(2026,11,n);}
+function goHome(){
+document.getElementById("home").classList.remove("hidden");
+document.getElementById("challenge").classList.add("hidden");
+document.getElementById("finale").classList.add("hidden");
+render();
+}
+function openDoor(n){
+if(!openDate(n)){alert("This door opens on December "+n+"! Come back soon. ✨");return;}
+current=n;
+let w=words[n-1];
+document.getElementById("home").classList.add("hidden");
+document.getElementById("finale").classList.add("hidden");
+document.getElementById("challenge").classList.remove("hidden");
+document.getElementById("dayTitle").textContent="December "+n+" • Your daily word";
+document.getElementById("word").textContent=w[0];
+document.getElementById("meaning").innerHTML="<b>Meaning:</b> "+w[1];
+document.getElementById("example").innerHTML="<b>Example:</b> "+w[2];
+document.getElementById("sentence").value="";
+document.getElementById("feedback").textContent=saved().includes(n)?"You've already completed this challenge! Well done. ⭐":"";
+}
+function completeDay(){
+let sentence=document.getElementById("sentence").value.trim();
+if(sentence.length<5){
+document.getElementById("feedback").textContent="Write your own sentence first. Give it a go! ⭐";
+return;
+}
+let a=saved();
+if(!a.includes(current)){a.push(current);store(a);}
+document.getElementById("feedback").textContent="Brilliant work, Parisa! Your secret letter is "+password[current-1]+". ❤️";
+render();
+}
+function render(){
+let a=saved();
+document.getElementById("doors").innerHTML=Array.from({length:25},(_,i)=>{
+let n=i+1;
+return `<button class="door ${a.includes(n)?"done":""} ${!openDate(n)?"locked":""}" onclick="openDoor(${n})">${a.includes(n)?"⭐":"🎁"}<small>${n} DEC</small></button>`;
+}).join("");
+document.getElementById("letters").innerHTML=password.split("").map((c,i)=>`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
+document.getElementById("progressText").textContent=a.length+" of 25 challenges completed";
+document.getElementById("bar").style.width=(a.length/25*100)+"%";
+document.getElementById("finalLetters").innerHTML=password.split("").map((c,i)=>`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
+}
+function unlock(){
+if(new Date()<new Date(2026,11,25)){
+document.getElementById("result").textContent="Your Christmas surprise unlocks on 25 December! 🎄";
+return;
+}
+let answer=document.getElementById("password").value.toUpperCase().replace(/[^A-Z]/g,"");
+document.getElementById("result").textContent=answer===password?
+"🎉 YOU DID IT, PARISA! Merry Christmas! Your present is waiting. All my love, Dad ❤️":
+"Not quite! Check your letters and try again. ⭐";
+}
+function showFinale(){
+document.getElementById("home").classList.add("hidden");
+document.getElementById("challenge").classList.add("hidden");
+document.getElementById("finale").classList.remove("hidden");
+render();
+}
+function enablePreview(){
+preview=!preview;
+document.getElementById("preview").textContent=preview?"Turn preview off":"Preview all doors";
+render();
+}
+render();
+</script>
+<div style="text-align:center;padding-bottom:20px">
+<button id="preview" onclick="enablePreview()">Preview all doors</button>
+<button onclick="showFinale()">🎁 Christmas password</button>
+</div>
+</body>
+</html>
