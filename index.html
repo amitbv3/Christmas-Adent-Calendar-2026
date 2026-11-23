@@ -4,229 +4,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Our Christmas Advent</title>
+<meta name="theme-color" content="#10251f">
+<title>Our Family Christmas Advent 2026</title>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#10291f;color:#fff8e9;font-family:Georgia,serif}
-header{text-align:center;padding:30px 15px 20px;background:linear-gradient(145deg,#173d2d,#10291f)}
-h1{color:#e8c477;font-size:30px;margin:8px}
-.sub{color:#d9d2bd;font-family:Arial}
-main{max-width:700px;margin:auto;padding:15px}
-h2{color:#e8c477}
-.tabs{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin:15px 0}
-button{cursor:pointer;border:1px solid #b99656;border-radius:10px;padding:11px;background:#244a37;color:white;font-size:14px}
-button.active{background:#c49a50;color:#15291e}
-.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:18px 0}
-.door{aspect-ratio:1;background:linear-gradient(145deg,#b28a49,#735329);border:2px solid #e8c477;border-radius:10px;color:white;font-size:23px;font-weight:bold;display:flex;align-items:center;justify-content:center;flex-direction:column}
-.door small{font-size:10px}
-.door.done{background:#245d43}
-.door.locked{opacity:.5}
-.panel{background:#1c3b2c;border:1px solid #806b43;border-radius:15px;padding:20px;margin:15px 0}
-.word{font-size:34px;color:#e8c477;margin:12px 0}
-.definition{font-family:Arial;line-height:1.6}
-input{width:100%;padding:13px;border-radius:8px;border:1px solid #b99656;font-size:18px;margin:10px 0;background:#fff8e9;color:#183326}
-.progress{height:8px;background:#526454;border-radius:10px;overflow:hidden}
-.progress div{height:100%;background:#e8c477;width:0}
-.letters{display:flex;flex-wrap:wrap;gap:5px;margin:15px 0}
-.letters span{width:25px;height:31px;border-bottom:2px solid #d5b76f;text-align:center;font-size:17px;color:#e8c477}
-footer{text-align:center;padding:25px;color:#d3c4a2}
-.hidden{display:none}
+:root {
+  --gold:#e7ca85;
+  --cream:#fff8e9;
+  --muted:#d5d4c9;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  min-height:100vh;
+  color:var(--cream);
+  font-family:Georgia,serif;
+  background:
+    radial-gradient(ellipse at 50% 0%,#315641 0%,transparent 48%),
+    linear-gradient(155deg,#0b211b,#142d25 55%,#071710);
+}
+header {
+  text-align:center;
+  padding:55px 20px 25px;
+}
+.eyebrow {
+  color:var(--gold);
+  font:10px Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:4px;
+}
+h1 {
+  font-size:clamp(39px,9vw,65px);
+  line-height:1.02;
+  font-weight:normal;
+  margin:18px 0 12px;
+}
+h1 span { color:var(--gold); }
+.intro {
+  max-width:390px;
+  margin:auto;
+  color:var(--muted);
+  font:13px/1.7 Arial,sans-serif;
+}
+.snow {
+  color:var(--gold);
+  font-size:19px;
+  letter-spacing:12px;
+  margin:22px 0 0;
+}
+main {
+  max-width:760px;
+  margin:0 auto;
+  padding:15px 18px 40px;
+}
+.section-title {
+  text-align:center;
+  color:var(--gold);
+  font:10px Arial,sans-serif;
+  letter-spacing:3px;
+  text-transform:uppercase;
+  margin:12px 0 20px;
+}
+.doors {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.door {
+  min-height:220px;
+  border-radius:19px;
+  padding:20px 16px;
+  text-decoration:none;
+  color:white;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border:1px solid #ffffff38;
+  box-shadow:0 12px 30px #0003;
+  transition:transform .2s,border-color .2s;
+}
+.door:active { transform:scale(.98); }
+.door::after {
+  content:"";
+  position:absolute;
+  width:140px;
+  height:140px;
+  border:1px solid #ffffff24;
+  border-radius:50%;
+  right:-55px;
+  top:-55px;
+}
+.amit { background:linear-gradient(145deg,#28543b,#102b20); }
+.neeta { background:linear-gradient(145deg,#582a39,#21121c); }
+.parisa { background:linear-gradient(145deg,#6851a0,#332454); }
+.vinaiya { background:linear-gradient(145deg,#a34b88,#53336e); }
+.icon {
+  font-size:35px;
+  line-height:1;
+  margin-bottom:17px;
+}
+.name {
+  font-size:27px;
+  margin:0 0 7px;
+  font-weight:normal;
+}
+.tag {
+  font:11px/1.5 Arial,sans-serif;
+  color:#ffffffd2;
+  max-width:190px;
+}
+.open {
+  margin-top:20px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font:10px Arial,sans-serif;
+  text-transform:uppercase;
+  letter-spacing:1.5px;
+  color:var(--gold);
+}
+.lock {
+  position:absolute;
+  top:17px;
+  right:15px;
+  font:10px Arial,sans-serif;
+  letter-spacing:1px;
+  color:#f2d9bd;
+  background:#160d1670;
+  border:1px solid #ffffff45;
+  border-radius:20px;
+  padding:7px 9px;
+}
+.message {
+  margin:28px auto 0;
+  max-width:520px;
+  border-top:1px solid #d9c17a50;
+  border-bottom:1px solid #d9c17a50;
+  padding:23px 12px;
+  text-align:center;
+}
+.message .quote {
+  color:var(--gold);
+  font-size:23px;
+  margin-bottom:8px;
+}
+.message p {
+  color:var(--muted);
+  font:12px/1.7 Arial,sans-serif;
+  margin:0;
+}
+footer {
+  text-align:center;
+  padding:15px 15px 38px;
+  color:#cbb77d;
+  font:11px Arial,sans-serif;
+  letter-spacing:1px;
+}
+@media(max-width:370px) {
+  .door { min-height:205px; padding:16px 13px; }
+  .name { font-size:23px; }
+  .tag { font-size:10px; }
+}
 </style>
 </head>
 <body>
+
 <header>
-<div style="font-size:35px">🎄 ✨ 🎅 ✨ 🎄</div>
-<h1>Our Christmas Advent</h1>
-<div class="sub">25 days of magic, words and adventures</div>
-<div style="margin-top:15px;color:#e8c477">Amit • Parisa • Vinaiya</div>
+  <div class="eyebrow">December 2026 · A little family magic</div>
+  <h1>Our Christmas<br><span>Advent</span></h1>
+  <p class="intro">
+    Four advent calendars. Four different adventures.
+    Twenty-five days of surprises, challenges and Christmas magic.
+    Welcome to our little festive world.
+  </p>
+  <div class="snow">✦ ❄ ✦ ❄ ✦</div>
 </header>
+
 <main>
-<div class="tabs">
-<button class="active" onclick="show('home',this)">🏠 Home</button>
-<button onclick="show('amit',this)">🏃 Amit</button>
-<button onclick="show('vin',this)">🪄 Vinaiya</button>
-<button onclick="show('par',this)">⭐ Parisa</button>
-</div>
-<section id="home">
-<div class="panel" style="text-align:center">
-<h2>Welcome to our Christmas adventure!</h2>
-<p>Every day brings a new challenge. Open your advent door, complete your mission and collect your secret letters.</p>
-<p>🎁 Two secret passwords. Two Christmas surprises.</p>
-</div>
-<div class="grid" id="doors"></div>
-<div class="panel">
-<h2>Our December progress</h2>
-<div id="summary" class="definition"></div>
-</div>
-</section>
-<section id="amit" class="hidden">
-<div class="panel">
-<h2>🏃 Amit's Christmas Running Challenge</h2>
-<p>25 days. One running adventure every day. Keep it comfortable and enjoy the journey!</p>
-<div id="runContent"></div>
-</div>
-</section>
-<section id="vin" class="hidden">
-<div class="panel">
-<h2>🪄 Vinaiya's Word Wizard</h2>
-<p>Discover a new word every day and use it in your own sentence!</p>
-<div id="vinContent"></div>
-<h3>Your secret letters</h3>
-<div class="letters" id="vinLetters"></div>
-<div id="vinProgress"></div>
-</div>
-</section>
-<section id="par" class="hidden">
-<div class="panel">
-<h2>⭐ Parisa's Vocabulary Challenge</h2>
-<p>25 days to expand your vocabulary. Can you use every word in a brilliant sentence?</p>
-<div id="parContent"></div>
-<h3>Your secret letters</h3>
-<div class="letters" id="parLetters"></div>
-<div id="parProgress"></div>
-</div>
-</section>
-<section id="reveal" class="panel hidden">
-<h2>🎁 Christmas Day Password Challenge</h2>
-<p>Enter your secret 25-letter password to reveal your Christmas surprise!</p>
-<label>Vinaiya's password</label>
-<input id="vinPass" placeholder="Enter your password">
-<button onclick="unlock('vin')">Unlock Vinaiya's present 🎁</button>
-<p id="vinResult"></p>
-<label>Parisa's password</label>
-<input id="parPass" placeholder="Enter your password">
-<button onclick="unlock('par')">Unlock Parisa's present 🎁</button>
-<p id="parResult"></p>
-</section>
+  <div class="section-title">Choose your Christmas door</div>
+
+  <section class="doors">
+
+    <a class="door amit" href="Amit/">
+      <div>
+        <div class="icon">🏃‍♂️</div>
+        <h2 class="name">Amit</h2>
+        <div class="tag">25 days. 25 running challenges. One festive finish line.</div>
+      </div>
+      <div class="open">Open your calendar →</div>
+    </a>
+
+    <a class="door neeta" href="neeta/">
+      <div class="lock">🔒 PASSWORD</div>
+      <div>
+        <div class="icon">🥂</div>
+        <h2 class="name">Neeta</h2>
+        <div class="tag">A little mischief, a little sparkle and some grown-up festive fun.</div>
+      </div>
+      <div class="open">Unlock your calendar →</div>
+    </a>
+
+    <a class="door parisa" href="parisa/">
+      <div>
+        <div class="icon">💜</div>
+        <h2 class="name">Parisa</h2>
+        <div class="tag">Discover new words, big ideas and a little Christmas brilliance.</div>
+      </div>
+      <div class="open">Open your calendar →</div>
+    </a>
+
+    <a class="door vinaiya" href="vinaiya/">
+      <div>
+        <div class="icon">🦄</div>
+        <h2 class="name">Vinaiya</h2>
+        <div class="tag">Magical words, curious adventures and festive fun every day.</div>
+      </div>
+      <div class="open">Open your calendar →</div>
+    </a>
+
+  </section>
+
+  <section class="message">
+    <div class="quote">“The magic of Christmas is better together.”</div>
+    <p>
+      A little something made with love, just for our family.
+      Open a door each day and make December a little more special.
+    </p>
+  </section>
 </main>
-<footer>Made with love by Dad ❤️<br>Christmas 2026</footer>
-<script>
-const passwords={
-vin:"THEMAGICOFCHRISTMASISOURS",
-par:"EVERYCHRISTMASBRINGSMAGIC"
-};
-const words={
-vin:[
-["Twinkle","To shine with a little light.","The stars twinkle in the night sky."],
-["Hilarious","Extremely funny.","That joke was hilarious!"],
-["Enormous","Very, very big.","An enormous whale swam past."],
-["Magnificent","Really beautiful or impressive.","The castle looked magnificent."],
-["Adventure","An exciting experience.","Our holiday was an adventure."],
-["Giggle","A little laugh.","I couldn't stop my giggle."],
-["Imagine","To picture something in your mind.","Imagine living in a castle."],
-["Curious","Wanting to find something out.","I am curious about space."],
-["Obstacle","Something that gets in your way.","I jumped over the obstacle."],
-["Flutter","To move lightly and quickly.","A butterfly began to flutter."],
-["Courage","Being brave.","It takes courage to try something new."],
-["Harmony","Things working happily together.","The team worked in harmony."],
-["Radiant","Shining brightly.","Her smile was radiant."],
-["Incredible","Amazing or hard to believe.","That was an incredible trick."],
-["Sparkle","To shine with little flashes of light.","The snow began to sparkle."],
-["Treasure","Something precious or special.","The map led to buried treasure."],
-["Mysterious","Strange and difficult to explain.","We heard a mysterious noise."],
-["Amazing","Really wonderful.","You did an amazing job."],
-["Spectacular","Very impressive.","The fireworks were spectacular."],
-["Investigate","To look closely to find out more.","Let's investigate the footprints."],
-["Snuggle","To cuddle up comfortably.","I love to snuggle under a blanket."],
-["Optimistic","Expecting good things to happen.","She stayed optimistic."],
-["Unusual","Different from what is normal.","That was an unusual bird."],
-["Remarkable","Extraordinary or special.","You made remarkable progress."],
-["Sunshine","Light and warmth from the sun.","You bring sunshine to my day."]
-],
-par:[
-["Eloquent","Speaking or writing beautifully.","Her eloquent speech impressed everyone."],
-["Vibrant","Full of energy and colour.","The garden was vibrant with flowers."],
-["Enigmatic","Mysterious and difficult to understand.","The enigmatic clue puzzled us."],
-["Resilient","Able to recover after difficulties.","She remained resilient after a setback."],
-["Yearning","A strong feeling of wanting something.","He felt a yearning for adventure."],
-["Compassionate","Showing kindness and care for others.","She was compassionate towards her friend."],
-["Hypothetical","Imagined rather than real.","Let's consider a hypothetical situation."],
-["Resourceful","Good at finding clever solutions.","He was resourceful when solving the puzzle."],
-["Intuition","Knowing something without being told.","My intuition told me something was wrong."],
-["Serenity","A feeling of peace and calm.","The lake gave me a sense of serenity."],
-["Tenacious","Not giving up easily.","Her tenacious attitude helped her succeed."],
-["Meticulous","Very careful about every detail.","He was meticulous with his artwork."],
-["Audacious","Bold and daring.","It was an audacious idea."],
-["Significant","Important or meaningful.","It was a significant achievement."],
-["Benevolent","Kind and generous.","The benevolent woman helped the community."],
-["Reflective","Thinking carefully about something.","She was reflective after the experience."],
-["Ingenious","Very clever and inventive.","That was an ingenious invention."],
-["Nostalgia","A happy or sad feeling about the past.","The photograph filled me with nostalgia."],
-["Gratitude","Being thankful.","I expressed my gratitude to my teacher."],
-["Spontaneous","Happening naturally without planning.","We took a spontaneous trip."],
-["Magnificent","Extremely impressive or beautiful.","The view was magnificent."],
-["Articulate","Able to express ideas clearly.","She gave an articulate answer."],
-["Gracious","Kind, polite and thoughtful.","He was gracious when he won."],
-["Innovative","Introducing new and clever ideas.","It was an innovative design."],
-["Courageous","Brave when facing difficulty.","It was courageous to speak up."]
-]
-};
-const runs=[3,2,4,1,5,6,2,3,4,2,5,3,10,2,4,3,5,2,6,3,4,2,5,2,1];
-let activeDay=1;
-let preview=false;
-const getDone=(key)=>JSON.parse(localStorage.getItem(key)||"[]");
-const save=(key,a)=>localStorage.setItem(key,JSON.stringify(a));
-function show(id,btn){
-document.querySelectorAll("main section").forEach(s=>s.classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
-document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
-if(btn)btn.classList.add("active");
-}
-function dayOpen(n){return preview||new Date()>=new Date(2026,11,n);}
-function doors(){
-let doneA=getDone("amit"),doneV=getDone("vin"),doneP=getDone("par");
-document.getElementById("doors").innerHTML=Array.from({length:25},(_,i)=>{
-let n=i+1,open=dayOpen(n);
-return `<button class="door ${doneA.includes(n)||doneV.includes(n)||doneP.includes(n)?"done":""} ${!open?"locked":""}" onclick="openDay(${n})">${open?"🎁":"🔒"}<small>${n} DEC</small></button>`;
-}).join("");
-document.getElementById("summary").innerHTML=
-`🏃 Amit: ${doneA.length}/25 runs<br>🪄 Vinaiya: ${doneV.length}/25 words<br>⭐ Parisa: ${doneP.length}/25 words`;
-}
-function openDay(n){
-if(!dayOpen(n)){alert("This advent door opens on December "+n+"! 🎄");return;}
-activeDay=n;
-show("home",document.querySelector(".tabs button"));
-document.getElementById("runContent").innerHTML=runHTML(n);
-document.getElementById("vinContent").innerHTML=wordHTML("vin",n);
-document.getElementById("parContent").innerHTML=wordHTML("par",n);
-show("amit",document.querySelectorAll(".tabs button")[1]);
-}
-function runHTML(n){
-let done=getDone("amit").includes(n);
-return `<h3>December ${n}</h3><div class="word">${runs[n-1]} km</div><p class="definition">${n===13?"⭐ SPECIAL SUNDAY 10KM CHALLENGE!":n===25?"🎄 Christmas Day run!":"Today's running mission. Enjoy the miles!"}</p><button onclick="complete('amit',${n})">${done?"✓ Completed":"Mark run complete"}</button>`;
-}
-function wordHTML(person,n){
-let w=words[person][n-1],done=getDone(person).includes(n);
-return `<h3>December ${n}</h3><div class="word">${w[0]}</div><p class="definition"><b>Meaning:</b> ${w[1]}</p><p class="definition"><b>Example:</b> ${w[2]}</p><label>Your sentence:</label><input id="${person}Sentence" placeholder="Write your own sentence..."><button onclick="complete('${person}',${n})">${done?"✓ Completed":"Complete my word challenge"}</button>`;
-}
-function complete(person,n){
-let a=getDone(person);
-if(!a.includes(n)){a.push(n);save(person,a);}
-doors();renderLetters();
-alert("Well done! Your progress has been saved. 🎄");
-}
-function renderLetters(){
-["vin","par"].forEach(p=>{
-let a=getDone(p);
-document.getElementById(p+"Letters").innerHTML=passwords[p].split("").map((c,i)=>`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
-document.getElementById(p+"Progress").innerHTML=`${a.length} of 25 letters discovered`;
-});
-}
-function unlock(p){
-let input=document.getElementById(p+"Pass").value.toUpperCase().replace(/[^A-Z]/g,"");
-let result=document.getElementById(p+"Result");
-if(new Date()<new Date(2026,11,25)){result.innerText="Your present unlocks on Christmas Day! 🎄";return;}
-if(input===passwords[p]){
-result.innerText="🎉 YOU DID IT! Merry Christmas! Your present is waiting. Love, Dad ❤️";
-}else result.innerText="Not quite! Check your letters and try again.";
-}
-function render(){
-doors();renderLetters();
-document.getElementById("runContent").innerHTML=runHTML(1);
-document.getElementById("vinContent").innerHTML=wordHTML("vin",1);
-document.getElementById("parContent").innerHTML=wordHTML("par",1);
-}
-render();
-</script>
+
+<footer>
+  MADE WITH LOVE · CHRISTMAS 2026
+</footer>
+
 </body>
 </html>
