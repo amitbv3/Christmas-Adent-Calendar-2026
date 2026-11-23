@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#302047">
+<title>Vinaiya's Word Wizard</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#211b38;color:#fff9ed;font-family:Georgia,serif}
+header{text-align:center;padding:32px 15px;background:linear-gradient(145deg,#76508c,#302047)}
+header h1{color:#ffe09a;font-size:29px;margin:12px 0}
+header p{font-family:Arial;color:#f0dfef}
+main{max-width:650px;margin:auto;padding:16px}
+h2{color:#ffdb91}
+.panel{background:#382b50;border:1px solid #a98ac1;border-radius:18px;padding:19px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:20px 0}
+button{cursor:pointer;border:1px solid #e8c68c;border-radius:11px;padding:12px;background:#76518d;color:white;font-size:14px}
+.door{aspect-ratio:1;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:22px;background:linear-gradient(145deg,#a36bb0,#604174)}
+.door small{font-size:10px;margin-top:5px}
+.door.done{background:linear-gradient(145deg,#b38c4d,#76542d)}
+.door.locked{opacity:.5}
+.word{font-size:34px;color:#ffdc94;margin:15px 0;overflow-wrap:anywhere}
+.definition{font-family:Arial;line-height:1.65}
+input,textarea{width:100%;padding:13px;border-radius:10px;border:1px solid #c7a8d4;margin:10px 0;font-size:16px}
+textarea{min-height:85px}
+.primary{background:#f1d28f;color:#302047;font-weight:bold}
+.letters{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:18px 0}
+.letters span{width:23px;height:32px;border-bottom:2px solid #e7c889;text-align:center;color:#ffdc94;font-size:18px}
+.progress{height:10px;background:#594767;border-radius:10px;overflow:hidden}
+.progress div{height:100%;background:#f1d28f}
+.hidden{display:none}
+footer{text-align:center;color:#e3d2e9;padding:28px;font-family:Arial;font-size:13px}
+</style>
+</head>
+<body>
+<header>
+<div style="font-size:38px">🪄 ✨ ⭐ 🎄 ✨</div>
+<h1>Vinaiya's Word Wizard</h1>
+<p>25 days of words, wonder and Christmas magic!</p>
+<p style="color:#ffe09a">A special adventure made just for you ❤️</p>
+</header>
+<main>
+<section id="home">
+<div class="panel" style="text-align:center">
+<h2>Welcome, Vinaiya!</h2>
+<p class="definition">Your magical Christmas mission is to discover a new word every day, learn what it means and use it in your very own sentence.</p>
+<p>🌟 Collect all 25 secret letters to discover your Christmas password!</p>
+</div>
+<h2 style="text-align:center">Open your advent doors 🎁</h2>
+<div class="grid" id="doors"></div>
+<div class="panel">
+<h2>Your magical progress</h2>
+<div class="progress"><div id="bar" style="width:0%"></div></div>
+<p id="progressText" class="definition"></p>
+</div>
+<div class="panel">
+<h2>🔐 Your secret letters</h2>
+<p class="definition">Every completed word reveals a secret letter. Can you work out the message?</p>
+<div class="letters" id="letters"></div>
+</div>
+</section>
+
+<section id="challenge" class="panel hidden">
+<button onclick="goHome()">← Back to my advent calendar</button>
+<h2 id="dayTitle"></h2>
+<div class="word" id="word"></div>
+<p class="definition" id="meaning"></p>
+<p class="definition" id="example"></p>
+<label for="sentence">🌟 Your turn! Can you make up your own sentence using this word?</label>
+<textarea id="sentence" placeholder="Write your amazing sentence here..."></textarea>
+<button class="primary" onclick="completeDay()">I've completed my word! ⭐</button>
+<p id="feedback" class="definition"></p>
+</section>
+
+<section id="finale" class="panel hidden">
+<h2>🎄 Your Christmas Mystery!</h2>
+<p class="definition">You've collected your letters. Now put them together and enter your secret password to unlock your present!</p>
+<div class="letters" id="finalLetters"></div>
+<input id="password" placeholder="Enter your secret password">
+<button class="primary" onclick="unlock()">Unlock my Christmas present 🎁</button>
+<p id="result" class="definition"></p>
+</section>
+</main>
+
+<footer>Created with love by Dad ❤️<br>Christmas 2026</footer>
+
+<div style="text-align:center;padding:0 10px 25px">
+<button id="preview" onclick="togglePreview()">Preview all doors</button>
+<button onclick="showFinale()">🎁 Password challenge</button>
+</div>
+
+<script>
+const password="THEMAGICOFCHRISTMASISOURS";
+const words=[
+["Twinkle","To shine with little flashes of light.","The stars twinkle in the night sky."],
+["Hilarious","Extremely funny.","That joke was absolutely hilarious!"],
+["Enormous","Very, very big.","An enormous elephant walked past."],
+["Magnificent","Really beautiful or impressive.","The castle looked magnificent."],
+["Adventure","An exciting experience or journey.","Our holiday was a wonderful adventure."],
+["Giggle","A little laugh.","I couldn't stop my giggle."],
+["Imagine","To picture something in your mind.","Imagine living in a magical castle."],
+["Curious","Wanting to find out more about something.","I am curious about space."],
+["Obstacle","Something that gets in your way.","I jumped over the obstacle."],
+["Flutter","To move lightly and quickly.","A butterfly began to flutter."],
+["Courage","Being brave even when something feels scary.","It took courage to try something new."],
+["Harmony","Things working happily together.","Our team worked together in harmony."],
+["Radiant","Shining brightly or looking full of happiness.","She had a radiant smile."],
+["Incredible","Amazing or hard to believe.","You did an incredible job!"],
+["Sparkle","To shine with tiny flashes of light.","The snow began to sparkle."],
+["Treasure","Something precious or special.","The map led us to buried treasure."],
+["Mysterious","Strange and difficult to explain.","We heard a mysterious noise."],
+["Amazing","Really wonderful or surprising.","That was an amazing trick!"],
+["Spectacular","Very impressive and exciting to see.","The fireworks were spectacular."],
+["Investigate","To look carefully to find out more.","Let's investigate the footprints."],
+["Snuggle","To cuddle up comfortably.","I love to snuggle under a warm blanket."],
+["Optimistic","Believing that good things will happen.","She stayed optimistic and kept trying."],
+["Unusual","Different from what is normal.","We spotted an unusual bird."],
+["Remarkable","Extraordinary or especially good.","You made remarkable progress."],
+["Sunshine","Light and warmth from the sun.","You bring sunshine to my day."]
+];
+
+const KEY="vinaiya_advent_2026";
+let current=1;
+let preview=false;
+
+function saved(){
+try{return JSON.parse(localStorage.getItem(KEY))||[];}
+catch(e){return [];}
+}
+function store(a){localStorage.setItem(KEY,JSON.stringify(a));}
+function openDate(n){
+return preview||new Date()>=new Date(2026,11,n);
+}
+function goHome(){
+document.getElementById("home").classList.remove("hidden");
+document.getElementById("challenge").classList.add("hidden");
+document.getElementById("finale").classList.add("hidden");
+render();
+}
+function openDoor(n){
+if(!openDate(n)){
+alert("Your magical door opens on December "+n+"! Come back soon. ✨");
+return;
+}
+current=n;
+let w=words[n-1];
+document.getElementById("home").classList.add("hidden");
+document.getElementById("finale").classList.add("hidden");
+document.getElementById("challenge").classList.remove("hidden");
+document.getElementById("dayTitle").textContent="December "+n+" • Your magical word";
+document.getElementById("word").textContent=w[0];
+document.getElementById("meaning").innerHTML="<b>What it means:</b> "+w[1];
+document.getElementById("example").innerHTML="<b>Example:</b> "+w[2];
+document.getElementById("sentence").value="";
+document.getElementById("feedback").textContent=
+saved().includes(n)?"You've already completed this word. Brilliant work! ⭐":"";
+}
+function completeDay(){
+let sentence=document.getElementById("sentence").value.trim();
+if(sentence.length<5){
+document.getElementById("feedback").textContent="Write your own sentence first. You can do it! 🌟";
+return;
+}
+let a=saved();
+if(!a.includes(current)){
+a.push(current);
+store(a);
+}
+document.getElementById("feedback").textContent=
+"Fantastic work, Vinaiya! Your secret letter is "+password[current-1]+". ❤️";
+render();
+}
+function render(){
+let a=saved();
+document.getElementById("doors").innerHTML=
+Array.from({length:25},(_,i)=>{
+let n=i+1;
+return `<button class="door ${a.includes(n)?"done":""} ${!openDate(n)?"locked":""}" onclick="openDoor(${n})">${a.includes(n)?"⭐":"🎁"}<small>${n} DEC</small></button>`;
+}).join("");
+
+document.getElementById("letters").innerHTML=
+password.split("").map((c,i)=>
+`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
+
+document.getElementById("progressText").textContent=
+a.length+" of 25 magical challenges completed!";
+
+document.getElementById("bar").style.width=(a.length/25*100)+"%";
+
+document.getElementById("finalLetters").innerHTML=
+password.split("").map((c,i)=>
+`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
+}
+function showFinale(){
+document.getElementById("home").classList.add("hidden");
+document.getElementById("challenge").classList.add("hidden");
+document.getElementById("finale").classList.remove("hidden");
+render();
+}
+function unlock(){
+let answer=document.getElementById("password").value.toUpperCase().replace(/[^A-Z]/g,"");
+let result=document.getElementById("result");
+if(new Date()<new Date(2026,11,25)){
+result.textContent="Your Christmas surprise unlocks on 25 December! 🎄";
+return;
+}
+if(answer===password){
+result.textContent="🎉 YOU DID IT, VINAIYA! Merry Christmas! Your special present is waiting. All my love, Dad ❤️";
+}else{
+result.textContent="Not quite! Check your letters and try again. You can do it! ⭐";
+}
+}
+function togglePreview(){
+preview=!preview;
+document.getElementById("preview").textContent=
+preview?"Turn preview off":"Preview all doors";
+render();
+}
+render();
+</script>
+</body>
+</html>
