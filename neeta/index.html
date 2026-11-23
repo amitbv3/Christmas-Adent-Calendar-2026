@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#210d18">
+<title>Neeta's 25 Days of Naughty</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#190e15;color:#fff2e8;font-family:Georgia,serif}
+header{text-align:center;padding:35px 15px;background:linear-gradient(145deg,#632432,#210d18)}
+header h1{font-size:30px;color:#e7c38b;margin:12px 0}
+header p{font-family:Arial;color:#ead7d4}
+main{max-width:650px;margin:auto;padding:17px}
+h2{color:#e7c38b}
+.panel{background:#321b27;border:1px solid #9e6c65;border-radius:17px;padding:20px;margin:17px 0}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin:20px 0}
+button{cursor:pointer;border:1px solid #c9a16d;border-radius:10px;padding:12px;background:#60303e;color:white;font-size:14px}
+.door{aspect-ratio:1;display:flex;align-items:center;justify-content:center;flex-direction:column;font-size:22px;background:linear-gradient(145deg,#8d4050,#46202d)}
+.door small{font-size:10px;margin-top:5px}
+.door.done{background:linear-gradient(145deg,#b48a4e,#76522d)}
+.door.locked{opacity:.5}
+.word{font-size:32px;color:#e7c38b;margin:15px 0;overflow-wrap:anywhere}
+.definition{font-family:Arial;line-height:1.7}
+.tag{font-family:Arial;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#e6a4a0}
+input,textarea{width:100%;padding:13px;border-radius:9px;border:1px solid #b38b79;margin:10px 0;font-size:16px;background:#fff8ef;color:#24151b}
+textarea{min-height:85px}
+.primary{background:#e2bf84;color:#26151c;font-weight:bold}
+.letters{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:18px 0}
+.letters span{width:23px;height:32px;border-bottom:2px solid #c9a16d;text-align:center;color:#e7c38b;font-size:18px}
+.progress{height:9px;background:#59404a;border-radius:10px;overflow:hidden}
+.progress div{height:100%;background:#e2bf84}
+.hidden{display:none}
+footer{text-align:center;color:#d6b9b5;padding:28px;font-family:Arial;font-size:13px}
+#gate{max-width:420px;margin:35px auto;text-align:center}
+#gate h2{font-size:25px}
+#gate input{text-align:center;letter-spacing:3px}
+#error{color:#f0a2a2;font-family:Arial}
+</style>
+</head>
+<body>
+
+<header>
+<div style="font-size:38px">🥂 💋 ✨ 🍷</div>
+<h1>Neeta's 25 Days of Naughty</h1>
+<p>A Little Class. A Lot of Sass.</p>
+<p style="color:#e7c38b">Definitely not for the kids!</p>
+</header>
+
+<section id="gate" class="panel">
+<div style="font-size:48px">🔒 💋</div>
+<div class="tag">A private little Christmas adventure</div>
+<h2>Stop! Naughty list access only.</h2>
+<p class="definition">This calendar is strictly for Neeta. Enter your password to come inside.</p>
+<input id="gatePassword" type="password" placeholder="Enter your password">
+<button class="primary" style="width:100%" onclick="enterCalendar()">Unlock the naughty list 🥂</button>
+<p id="error"></p>
+</section>
+
+<div id="app" class="hidden">
+<main>
+<section id="home">
+<div class="panel" style="text-align:center">
+<div class="tag">The grown-up Christmas challenge</div>
+<h2>Welcome to the naughty list, Neeta!</h2>
+<p class="definition">25 days of sultry words, modern slang, filthy humour and a little mischief.</p>
+<p>💋 Discover a word, learn its meaning and put it to good use.</p>
+<p>🔐 Collect 25 secret letters to unlock your Christmas surprise.</p>
+</div>
+
+<h2 style="text-align:center">Your 25 days of mischief</h2>
+<div class="grid" id="doors"></div>
+
+<div class="panel">
+<h2>Your progress</h2>
+<div class="progress"><div id="bar" style="width:0%"></div></div>
+<p id="progressText" class="definition"></p>
+</div>
+
+<div class="panel">
+<h2>🔐 Your secret password</h2>
+<p class="definition">Every completed challenge reveals a letter. Can you work out the secret message?</p>
+<div class="letters" id="letters"></div>
+</div>
+</section>
+
+<section id="challenge" class="panel hidden">
+<button onclick="goHome()">← Back to the naughty list</button>
+<h2 id="dayTitle"></h2>
+<div class="tag" id="category"></div>
+<div class="word" id="word"></div>
+<p class="definition" id="meaning"></p>
+<p class="definition" id="example"></p>
+<div class="panel" style="background:#24131c">
+<h2 style="font-size:19px">💋 Today's challenge</h2>
+<p class="definition" id="task"></p>
+<textarea id="answer" placeholder="Your cheeky response goes here..."></textarea>
+<button class="primary" onclick="completeDay()">I've completed today's mischief 💋</button>
+<p id="feedback" class="definition"></p>
+</div>
+</section>
+
+<section id="finale" class="panel hidden">
+<h2>🥂 The Christmas reveal</h2>
+<p class="definition">You've collected your 25 letters. Put them together and reveal your secret password!</p>
+<div class="letters" id="finalLetters"></div>
+<input id="puzzlePassword" placeholder="Enter your secret Christmas password">
+<button class="primary" onclick="unlockPresent()">Reveal my Christmas surprise 🎁</button>
+<p id="result" class="definition"></p>
+</section>
+</main>
+
+<footer>Created with a little mischief and love ❤️<br>Christmas 2026</footer>
+
+<div style="text-align:center;padding:0 10px 25px">
+<button id="preview" onclick="togglePreview()">Preview all doors</button>
+<button onclick="showFinale()">🥂 Password challenge</button>
+<button onclick="leaveCalendar()">Lock calendar 🔒</button>
+</div>
+</div>
+
+<script>
+const ENTRY_PASSWORD="KNOBHEAD";
+const password="NAUGHTYBUTNICEALLDECEMBER";
+
+const words=[
+["Naughty","Filthy fun","Playfully improper, cheeky or deliberately mischievous.","She had a rather naughty sense of humour.","Use the word in a sentence that would make someone blush."],
+["Alluring","Sultry","Powerfully attractive or tempting.","There was something alluring about her mysterious smile.","Describe something or someone you find alluring."],
+["Unfiltered","TikTok slang","Completely honest, without holding back or censoring your thoughts.","Her unfiltered opinions always made everyone laugh.","Write an unapologetically honest one-liner."],
+["G-spot","Adult vocabulary","An area inside the vagina that some people find particularly sensitive to stimulation.","The phrase is often used in cheeky adult conversations.","Explain this word as if you were writing a very cheeky dictionary."],
+["Horny","Filthy","Feeling sexually excited or aroused.","She joked that the conversation was getting rather horny.","Write a cheeky sentence using the word."],
+["Thirst trap","TikTok slang","A photo or video designed to attract attention, often by showing off someone's looks.","That gym selfie was definitely a thirst trap.","Describe the perfect thirst trap."],
+["Yearning","Sultry","A powerful feeling of wanting or longing for something.","There was a yearning for adventure in her eyes.","Use yearning in a suitably dramatic sentence."],
+["Baddie","TikTok slang","A confident, stylish and attractive person who knows their worth.","She walked into the room like a total baddie.","Describe what makes someone a baddie."],
+["Unbuttoned","Sultry","Relaxed, uninhibited or literally having buttons undone.","The evening became a little more unbuttoned than expected.","Create a playful double-meaning sentence."],
+["Temptress","Sultry","A woman who is charming, alluring or tempting.","She played the part of the irresistible temptress.","Write a sentence worthy of a dramatic romance novel."],
+["Nasty","Filthy","Rude, wicked or deliberately outrageous; sometimes used in a sexual sense.","That was a nasty little joke!","Write the cheekiest sentence you can manage."],
+["Intimate","Sultry","Very close, private or involving personal affection.","They shared an intimate conversation.","Use intimate in a sentence with a mysterious twist."],
+["Carnal","Sultry","Relating to physical or sexual desires.","The novel explored carnal desires and temptation.","Write a dramatic sentence using carnal."],
+["Erotic","Sultry","Relating to sexual attraction or desire.","The film had an erotic atmosphere.","Use erotic in a sentence without being too obvious."],
+["Afterglow","Sultry","A warm, happy feeling that remains after a pleasurable experience.","She was still smiling in the afterglow of a wonderful evening.","Describe an evening that leaves an afterglow."],
+["Lewd","Filthy","Crude, indecent or sexually suggestive.","His lewd joke made everyone burst out laughing.","Invent a sentence that uses lewd correctly."],
+["Lingerie","Sultry","Women's intimate clothing, often designed to be attractive.","She bought some beautiful new lingerie.","Write a cheeky shopping confession."],
+["Down bad","TikTok slang","Extremely attracted to someone, sometimes to the point of losing your dignity.","He's so down bad that he likes every single photo.","Describe someone who is seriously down bad."],
+["Exhibitionist","Filthy","Someone who enjoys being seen or displaying themselves, particularly in a revealing way.","She joked that her holiday photos were getting rather exhibitionist.","Create a sentence using exhibitionist."],
+["Clapped","British slang","A rude slang term for looking unattractive or rough.","He said the old trainers looked absolutely clapped.","Use clapped in a brutally funny sentence."],
+["Explicit","Adult vocabulary","Very clear, direct or containing openly sexual content.","The conversation became rather explicit.","Write a cheeky sentence using explicit."],
+["Mischievous","Cheeky","Enjoying playful trouble or doing things that are slightly naughty.","She gave him a mischievous wink.","Describe your most mischievous idea."],
+["Body count","TikTok slang","Slang for the number of sexual partners someone has had.","The phrase body count often causes lively conversations.","Use body count in a witty sentence."],
+["Edging","Adult slang","A sexual technique involving delaying orgasm by approaching and then reducing stimulation.","The term has become familiar in adult online slang.","Write a playful dictionary-style explanation of edging."],
+["Risqué","Sultry","Slightly indecent, daring or suggestive.","Her risqué sense of humour was legendary.","Finish the sentence: Christmas would be more fun if it were a little more risqué..."]
+];
+
+const KEY="neeta_advent_2026";
+let current=1;
+let preview=false;
+
+function enterCalendar(){
+let entered=document.getElementById("gatePassword").value.trim().toUpperCase();
+if(entered===ENTRY_PASSWORD){
+sessionStorage.setItem("neeta_access","yes");
+document.getElementById("gate").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+render();
+}else{
+document.getElementById("error").textContent="Wrong password, darling. Try again! 💋";
+}
+}
+function leaveCalendar(){
+sessionStorage.removeItem("neeta_access");
+document.getElementById("app").classList.add("hidden");
+document.getElementById("gate").classList.remove("hidden");
+document.getElementById("gatePassword").value="";
+document.getElementById("error").textContent="";
+}
+function saved(){
+try{return JSON.parse(localStorage.getItem(KEY))||[];}
+catch(e){return [];}
+}
+function store(a){localStorage.setItem(KEY,JSON.stringify(a));}
+function openDate(n){
+return preview||new Date()>=new Date(2026,11,n);
+}
+function goHome(){
+document.getElementById("home").classList.remove("hidden");
+document.getElementById("challenge").classList.add("hidden");
+document.getElementById("finale").classList.add("hidden");
+render();
+}
+function openDoor(n){
+if(!openDate(n)){
+alert("This door opens on December "+n+". Patience, darling! 🥂");
+return;
+}
+current=n;
+let w=words[n-1];
+document.getElementById("home").classList.add("hidden");
+document.getElementById("finale").classList.add("hidden");
+document.getElementById("challenge").classList.remove("hidden");
+document.getElementById("dayTitle").textContent="December "+n+" • Today's word";
+document.getElementById("category").textContent=w[1];
+document.getElementById("word").textContent=w[0];
+document.getElementById("meaning").innerHTML="<b>Meaning:</b> "+w[2];
+document.getElementById("example").innerHTML="<b>Example:</b> "+w[3];
+document.getElementById("task").textContent=w[4];
+document.getElementById("answer").value="";
+document.getElementById("feedback").textContent=
+saved().includes(n)?"You've already completed this challenge. Very good, darling! 💋":"";
+}
+function completeDay(){
+let answer=document.getElementById("answer").value.trim();
+if(answer.length<5){
+document.getElementById("feedback").textContent="Come on, give me at least a cheeky sentence! 💋";
+return;
+}
+let a=saved();
+if(!a.includes(current)){
+a.push(current);
+store(a);
+}
+document.getElementById("feedback").textContent=
+"Well done, Neeta! Your secret letter is "+password[current-1]+". 🥂";
+render();
+}
+function render(){
+let a=saved();
+document.getElementById("doors").innerHTML=
+Array.from({length:25},(_,i)=>{
+let n=i+1;
+return `<button class="door ${a.includes(n)?"done":""} ${!openDate(n)?"locked":""}" onclick="openDoor(${n})">${a.includes(n)?"💋":"🎁"}<small>${n} DEC</small></button>`;
+}).join("");
+document.getElementById("letters").innerHTML=
+password.split("").map((c,i)=>`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
+document.getElementById("progressText").textContent=
+a.length+" of 25 naughty challenges completed.";
+document.getElementById("bar").style.width=(a.length/25*100)+"%";
+document.getElementById("finalLetters").innerHTML=
+password.split("").map((c,i)=>`<span>${a.includes(i+1)?c:"•"}</span>`).join("");
+}
+function showFinale(){
+document.getElementById("home").classList.add("hidden");
+document.getElementById("challenge").classList.add("hidden");
+document.getElementById("finale").classList.remove("hidden");
+render();
+}
+function unlockPresent(){
+let answer=document.getElementById("puzzlePassword").value.toUpperCase().replace(/[^A-Z]/g,"");
+let result=document.getElementById("result");
+if(new Date()<new Date(2026,11,25)){
+result.textContent="Your Christmas surprise unlocks on 25 December. Keep collecting those letters! 🥂";
+return;
+}
+if(answer===password){
+result.textContent="🥂 YOU DID IT, NEETA! Merry Christmas! Your naughty little surprise is waiting. With love! ❤️";
+}else{
+result.textContent="Not quite, darling! Check your letters and have another go. 💋";
+}
+}
+function togglePreview(){
+preview=!preview;
+document.getElementById("preview").textContent=
+preview?"Turn preview off":"Preview all doors";
+render();
+}
+if(sessionStorage.getItem("neeta_access")==="yes"){
+document.getElementById("gate").classList.add("hidden");
+document.getElementById("app").classList.remove("hidden");
+render();
+}
+</script>
+</body>
+</html>
