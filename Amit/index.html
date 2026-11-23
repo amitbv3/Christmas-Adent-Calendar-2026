@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amit's Christmas Running Challenge</title>
+<style>
+:root {
+  --green:#123c2e;
+  --deep:#09271e;
+  --gold:#e7c779;
+  --cream:#fff8e9;
+  --muted:#b9c9bd;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family:Georgia,serif;
+  color:var(--cream);
+  background:
+    radial-gradient(circle at 10% 5%,#28563e 0,transparent 28%),
+    linear-gradient(145deg,var(--deep),#102f26 55%,#071c17);
+  min-height:100vh;
+}
+header {
+  text-align:center;
+  padding:42px 18px 26px;
+}
+.eyebrow {
+  color:var(--gold);
+  letter-spacing:4px;
+  text-transform:uppercase;
+  font:11px Arial,sans-serif;
+}
+h1 {
+  font-size:clamp(35px,8vw,57px);
+  line-height:1.05;
+  margin:15px 0 10px;
+  font-weight:normal;
+}
+h1 span { color:var(--gold); }
+.subtitle {
+  color:var(--muted);
+  font:14px Arial,sans-serif;
+  line-height:1.6;
+  max-width:450px;
+  margin:auto;
+}
+.hero {
+  max-width:540px;
+  margin:0 auto 25px;
+  padding:0 18px;
+}
+.hero-card {
+  border:1px solid #b99a564a;
+  background:#ffffff0b;
+  border-radius:18px;
+  padding:20px;
+  text-align:center;
+}
+.hero-card .big {
+  font-size:42px;
+  color:var(--gold);
+  margin:4px 0;
+}
+.hero-card p {
+  font:12px Arial,sans-serif;
+  color:var(--muted);
+  margin:5px 0;
+}
+.progress-wrap {
+  max-width:540px;
+  margin:0 auto 25px;
+  padding:0 22px;
+}
+.progress-label {
+  display:flex;
+  justify-content:space-between;
+  color:var(--muted);
+  font:12px Arial,sans-serif;
+  margin-bottom:9px;
+}
+.progress {
+  height:8px;
+  background:#ffffff20;
+  border-radius:20px;
+  overflow:hidden;
+}
+.progress-fill {
+  height:100%;
+  width:0;
+  background:linear-gradient(90deg,#b38b42,var(--gold));
+  transition:width .3s;
+}
+.grid {
+  max-width:650px;
+  margin:auto;
+  padding:0 15px 35px;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.day {
+  min-height:160px;
+  padding:17px 14px;
+  border:1px solid #d6bd7850;
+  border-radius:15px;
+  background:linear-gradient(145deg,#ffffff12,#ffffff05);
+  position:relative;
+  overflow:hidden;
+}
+.day.locked { opacity:.48; }
+.day.done {
+  background:linear-gradient(145deg,#315d43,#173c2c);
+  border-color:var(--gold);
+}
+.day.special {
+  grid-column:span 2;
+  background:linear-gradient(120deg,#6b4c20,#183c2c 75%);
+  border:1px solid var(--gold);
+}
+.day-top {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font:10px Arial,sans-serif;
+  letter-spacing:1.5px;
+  text-transform:uppercase;
+  color:var(--gold);
+}
+.day-number { font-size:12px; }
+.day h2 {
+  font-size:23px;
+  font-weight:normal;
+  margin:13px 0 5px;
+}
+.day .date {
+  color:var(--muted);
+  font:11px Arial,sans-serif;
+}
+.distance {
+  color:var(--gold);
+  font-size:30px;
+  margin:12px 0 7px;
+}
+.day .detail {
+  font:12px/1.5 Arial,sans-serif;
+  color:#e0e8df;
+  min-height:36px;
+}
+.day button {
+  margin-top:13px;
+  width:100%;
+  border:1px solid #d6bd78a0;
+  border-radius:30px;
+  padding:10px;
+  background:transparent;
+  color:var(--cream);
+  font:11px Arial,sans-serif;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  cursor:pointer;
+}
+.day button:disabled { opacity:.5; cursor:not-allowed; }
+.day.done button {
+  background:var(--gold);
+  color:#14271d;
+  border-color:var(--gold);
+}
+.note {
+  max-width:540px;
+  margin:0 auto 35px;
+  padding:0 20px;
+  text-align:center;
+  color:var(--muted);
+  font:12px/1.7 Arial,sans-serif;
+}
+.note strong { color:var(--gold); }
+footer {
+  text-align:center;
+  padding:25px 15px 40px;
+  color:var(--gold);
+  font-size:13px;
+}
+#preview {
+  display:block;
+  margin:0 auto 20px;
+  background:transparent;
+  border:1px solid #d6bd7880;
+  border-radius:30px;
+  color:var(--gold);
+  padding:9px 16px;
+  font:11px Arial,sans-serif;
+  letter-spacing:1px;
+}
+@media(max-width:370px) {
+  .grid { gap:8px; padding-left:10px; padding-right:10px; }
+  .day { padding:13px 11px; }
+  .day h2 { font-size:20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">The Christmas Countdown · 2026</div>
+  <h1>Run into<br><span>Christmas</span></h1>
+  <p class="subtitle">25 days. 25 challenges. One festive finish line.<br>A little movement, a little madness, and a lot of miles.</p>
+</header>
+
+<section class="hero">
+  <div class="hero-card">
+    <div class="eyebrow">Your Christmas mission</div>
+    <div class="big">🏃‍♂️</div>
+    <p>THE AMIT RUNNING ADVENT</p>
+    <p>From the first kilometre to the Christmas Day finish.</p>
+  </div>
+</section>
+
+<section class="progress-wrap">
+  <div class="progress-label">
+    <span>Your progress</span>
+    <span id="progressText">0 / 25 completed</span>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+</section>
+
+<button id="preview" onclick="togglePreview()">Preview all 25 days</button>
+
+<main class="grid" id="calendar"></main>
+
+<section class="note">
+  <strong>Remember:</strong> Keep the easy days genuinely easy. Walk breaks are welcome,
+  and recovery means recovery. If you feel pain, stop and rest rather than pushing through.
+  <br><br>
+  Every kilometre counts. Consistency beats speed.
+</section>
+
+<footer>
+  Made for the miles, the memories & the magic of Christmas ✨
+</footer>
+
+<script>
+const challenges = [
+  ["1","1 DEC","The Opening Lap","1 km","Start easy. Just get out, get moving and kick off the countdown.","Easy jog"],
+  ["2","2 DEC","Festive Five?","2 km","A relaxed run. Find your rhythm and enjoy the fresh air.","Easy pace"],
+  ["3","3 DEC","The Feel-Good Run","3 km","Three comfortable kilometres. No watch-watching today.","Easy pace"],
+  ["4","4 DEC","Recovery Miles","1 km","A gentle jog or brisk walk. Keep the effort very light.","Recovery"],
+  ["5","5 DEC","Build the Distance","4 km","Steady and comfortable. Finish feeling like you could do more.","Steady run"],
+  ["6","6 DEC","Sunday Stretch","3 km","An easy Sunday outing. Enjoy the longer morning.","Easy pace"],
+  ["7","7 DEC","The Monday Reset","2 km","Shake off the weekend with a short, relaxed run.","Easy pace"],
+  ["8","8 DEC","Little & Often","3 km","Keep it smooth. Focus on relaxed breathing.","Easy pace"],
+  ["9","9 DEC","Midweek Miles","4 km","A steady run. Nothing heroic required.","Steady run"],
+  ["10","10 DEC","Take It Easy","1 km","A very gentle recovery jog or walk. Save the legs.","Recovery"],
+  ["11","11 DEC","The Confidence Run","5 km","A comfortable five. Settle in and enjoy the distance.","Easy pace"],
+  ["12","12 DEC","Pre-Race Prep","2 km","Keep it short and gentle. Get ready for tomorrow.","Recovery"],
+  ["13","13 DEC","THE BIG ONE","10 km","Your Christmas 10K! Start conservatively, pace yourself and enjoy every kilometre. Walk breaks are absolutely fine.","Sunday 10K"],
+  ["14","14 DEC","The Recovery Special","1 km","A gentle walk or very easy shuffle only if your body feels good. Rest is a valid choice.","Recovery"],
+  ["15","15 DEC","Back to Basics","2 km","A relaxed return. Keep the effort low.","Easy pace"],
+  ["16","16 DEC","The Mid-December Cruise","4 km","Comfortable miles. Smooth, steady and controlled.","Steady run"],
+  ["17","17 DEC","Short & Sweet","2 km","A short easy outing. Finish fresh.","Easy pace"],
+  ["18","18 DEC","The Weekend Warm-Up","5 km","A comfortable run. No need to chase a pace.","Easy pace"],
+  ["19","19 DEC","Festive Fresh Air","3 km","Enjoy the outdoors. Run or run/walk as you please.","Easy pace"],
+  ["20","20 DEC","Sunday Miles","6 km","Your longest run since the 10K. Keep it conversational and relaxed.","Easy long run"],
+  ["21","21 DEC","The Gentle Reset","1 km","A recovery walk or gentle jog. Listen to your legs.","Recovery"],
+  ["22","22 DEC","Christmas Countdown","3 km","Three easy kilometres. Nearly there!","Easy pace"],
+  ["23","23 DEC","The Festive Four","4 km","A steady, comfortable run. Enjoy the countdown.","Steady run"],
+  ["24","24 DEC","Christmas Eve Shuffle","2 km","A relaxed festive jog or walk. Nothing strenuous today.","Easy pace"],
+  ["25","25 DEC","THE CHRISTMAS FINISH","5 km","Your Christmas Day finale! Choose a comfortable pace, enjoy the moment and celebrate completing your advent challenge.","Christmas Day"]
+];
+
+const key = "amitChristmasRun2026";
+let completed = JSON.parse(localStorage.getItem(key) || "[]");
+let preview = false;
+
+function todayNumber() {
+  const now = new Date();
+  if (now.getFullYear() !== 2026 || now.getMonth() !== 11) return 0;
+  return now.getDate();
+}
+
+function togglePreview() {
+  preview = !preview;
+  document.getElementById("preview").textContent =
+    preview ? "Turn preview off" : "Preview all 25 days";
+  render();
+}
+
+function markDone(day) {
+  if (completed.includes(day)) {
+    completed = completed.filter(x => x !== day);
+  } else {
+    completed.push(day);
+  }
+  localStorage.setItem(key, JSON.stringify(completed));
+  render();
+}
+
+function render() {
+  const calendar = document.getElementById("calendar");
+  calendar.innerHTML = "";
+  const today = todayNumber();
+
+  challenges.forEach((c, i) => {
+    const day = i + 1;
+    const isDone = completed.includes(day);
+    const isOpen = preview || day <= today;
+    const special = day === 13 || day === 25;
+
+    const card = document.createElement("article");
+    card.className = "day" +
+      (isDone ? " done" : "") +
+      (!isOpen ? " locked" : "") +
+      (special ? " special" : "");
+
+    card.innerHTML = `
+      <div class="day-top">
+        <span>Day ${c[0]}</span>
+        <span>${isDone ? "✓ DONE" : isOpen ? "✦ OPEN" : "🔒 LOCKED"}</span>
+      </div>
+      <h2>${c[2]}</h2>
+      <div class="date">${c[1]} · ${c[6]}</div>
+      <div class="distance">${c[3]}</div>
+      <div class="detail">${c[4]}</div>
+      <button ${!isOpen ? "disabled" : ""} onclick="markDone(${day})">
+        ${isDone ? "Completed ✓ — undo" : "Mark as completed"}
+      </button>
+    `;
+    calendar.appendChild(card);
+  });
+
+  document.getElementById("progressText").textContent =
+    `${completed.length} / 25 completed`;
+  document.getElementById("progressFill").style.width =
+    `${completed.length / 25 * 100}%`;
+}
+
+render();
+</script>
+</body>
+</html>
